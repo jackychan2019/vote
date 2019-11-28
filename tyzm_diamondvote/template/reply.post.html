@@ -1,0 +1,114 @@
+﻿
+<div class="alert alert-success" role="alert">回复关键字投票，请在回复规则 “高级触发列表”-“正则表达式模式匹配” 新增 “ <span class="label label-success">^投票</SPAN> ” 为关键字，例如设置： <span class="label label-success">^TP</SPAN> ，
+用户回复 <span class="label label-success">TP2</SPAN> 时，自动给编号 <span class="label label-success">2</SPAN> 用户投票。 <span class="label label-success">TP</SPAN> 可以修改位任意字符，中英文都可以，关键字不要带数字。</div>
+<div class="main-post">
+  <input type="hidden" name="reply_id" value="{$details['id']}" />
+  <div class="form-group">
+    <label class="control-label col-sm-2">关联活动</label>
+    <div class="form-controls col-sm-8">
+      <input class="form-control aid" type="hidden" value="{$details['aid']}"   name="actrid">
+      <div class="input-group ">
+        <input type="text" name="acttitle" value="[ 编号：{$details['rid']} ] {$details['acttitle']}" class="form-control acttitle" placeholder="请选择关联的活动" readonly>
+        <span class="input-group-btn">
+          <button class="btn btn-default queryplayer" type="button" data-toggle="modal" data-target="#activitylist" >选择活动</button>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">图文消息标题</label>
+    <div class="form-controls col-sm-8">
+      <input class="form-control replytitle" type="text" value="{$details['title']}"  name="title">
+      <div class="help-block">回复图文消息标题</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">图文信息大图</label>
+    <div class="form-controls col-sm-8">
+       {php echo tpl_form_field_image('thumb',$details['thumb']);}
+      <div class="help-block">回复图文消息大图</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-sm-2">图文消息简介</label>
+    <div class="form-controls col-sm-8">
+      <textarea class="form-control" name="description">{$details['description']}</textarea>
+      <div class="help-block">回复图文消息简介</div>
+    </div>
+  </div><!---YI  FU  YUAN MA WANG-->
+  <div class="form-group">
+    <label class="control-label col-sm-2">图文消息链接{$details['linktype']}</label>
+    <div class="form-controls col-sm-8">
+        <select class="form-control" name="linktype">
+            <option value="0"{if empty($details['linktype'])} selected {/if}>活动首页</option>
+            <option value="1"{if $details['linktype']==1} selected {/if}>报名入口</option>
+            <option value="2"{if $details['linktype']==2} selected {/if}>排行榜</option>
+        </select>
+    </div>
+  </div>
+
+  <div class="modal fade" id="activitylist" style="    z-index: 1021;" tabindex="2" role="dialog" aria-hidden="true">
+  <div class="we7-modal-dialog modal-dialog we7-form">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <div class="modal-title">活动列表</div>
+      </div>
+      <div class="modal-body main_query">
+      <!--   内容start  -->
+        
+      
+      <!--   内容end  -->
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script type="text/javascript">
+  
+$('.queryplayer').click(function(){
+        select_page();
+    }); 
+
+
+
+function select_page(pindex) {
+        if(pindex==''||pindex==0){
+            return;
+        }
+        var keyword = $.trim($("#actid_input").val());
+        $("#actid_input").html('<div class="tip">正在进行搜索...</div>');
+        $.ajax({
+            url:"{php echo $this->createWebUrl("activit.query")}",
+            type:'get',
+            data:{keyword:keyword,page:pindex,psize:10},
+            async : false, //默认为true 异步
+            success:function(data){
+                $(".main_query").html(data);
+            }
+        });
+}
+
+function selector(rid,title){
+  $('.aid').val(rid);
+  $('.acttitle').val("[ 编号："+rid+" ] "+title);
+  $('.replytitle').val(title);
+  $('#activitylist').modal('hide');
+}
+
+
+</script>
+<style type="text/css">
+  
+.main-post .form-group {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+</style>

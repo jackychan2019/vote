@@ -1,0 +1,125 @@
+{template 'hengpai/header'}
+
+    
+
+
+{if $reply['isindexslide']==1}
+{template 'sider'}
+{/if}
+
+
+
+
+
+
+<div class="pageOne">
+
+    <div class="section0">
+
+        <div class="TimeRlue">
+            <a href="{php echo $this->createMobileUrl('prize', array('rid' => $rid))}"><div class="Rule">
+                <i class="fa fa-file-text-o"></i><br/>活动详情
+            </div></a>
+            <div class="Time" id="getting-started">
+<div class="time-item" style="font-size: 1.2rem;color: red">
+  <div class="day" style="    font-size: 16px;  color: #ccc;"><i class="iconfont">&#xe76d;</i>  距离活动结束还有</div>
+  <strong id="day_show">0<span> 天</span></strong>
+  <strong id="hour_show">0<span> 时</span></strong>
+  <strong id="minute_show">0<span> 分</span></strong>
+  <strong id="second_show">0<span> 秒</span></strong>
+</div>
+
+            </div>
+        </div>
+
+        
+    </div>
+
+
+    <div class="section2 " id="paim">
+      
+ 
+
+                  <div class="list2">
+            <table class="datalist" cellpadding="0" cellspacing="0">
+              <tr>
+                  <th width="20%">编号</th>
+                  <th width="40%">名称</th>
+                  <th width="20%">{$votecnameunit}数</th>
+                  <th width="20%">排名</th>
+                </tr>
+
+               <tbody class="rankslist">
+                    </tbody></table>
+ 
+             
+          </div>
+
+          
+
+  <script> 
+var limit = 1;
+function get_list(){  
+  $(".ranksnone").html('<div class="am-text-secondary"><span class="am-icon-spinner am-icon-spin"></span> 卖命加载中...</div>');
+  $.ajax({
+      type : "post",
+      url : "{php echo $this->createMobileUrl('ranking',array('rid'=>$rid,'ty'=>$_GPC['ty']))}",
+      data : {
+        limit:limit,
+      },
+        dataType : "json",    
+      success : function(data) {
+        if(data.status==200){
+            var list = data.content;
+            var content = '';
+            $(".rankslist").append(list);
+            for(var i=0; i<list.length; i++){
+              content ='<tr><td>'+list[i]['noid']+'</td><td><a href="'+list[i]['url']+'">'+list[i]['name']+'</a></td><td>'+list[i]['votenum']+'</td><td><span>'+(i+1)+'</span></td></tr>';
+              $(".rankslist").append(content);
+            }
+            $(".ranksnone").html('');
+            limit++;    
+        }else if(data.status==-103){
+          $("#list_more").html('<span>没有更多记录！</span>');
+        }else{
+          $("#list_more").html('<span>没有更多记录！</span>');
+      }     
+      },
+      error : function(xhr, type) {
+
+      }
+  });
+} 
+get_list();
+var intDiff = parseInt({php echo $reply['endtime']-time();});//倒计时总秒数量
+function timer(intDiff){
+  window.setInterval(function(){
+  var day=0,
+    hour=0,
+    minute=0,
+    second=0;//时间默认值    
+  if(intDiff > 0){
+    day = Math.floor(intDiff / (60 * 60 * 24));
+    hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+    minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+    second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+  }
+  if (minute <= 9) minute = '0' + minute;
+  if (second <= 9) second = '0' + second;
+  $('#day_show').html(day+"<span> 天</span>");
+  $('#hour_show').html('<s id="h"></s>'+hour+'<span> 时</span>');
+  $('#minute_show').html('<s></s>'+minute+'<span> 分</span>');
+  $('#second_show').html('<s></s>'+second+'<span> 秒</span>');
+  intDiff--;
+  }, 1000);
+} 
+
+
+timer(intDiff);
+</script>
+
+
+</div>
+</div>
+
+{template 'hengpai/footer'}

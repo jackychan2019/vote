@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" id="html-layout">
+<head>
+<meta charset="utf-8">
+<title>{if !empty($_W['page']['sitename'])}{$_W['page']['sitename']}{else}{$_W['account']['name']}{/if}{if !empty($title)}{$title} {/if}</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+  <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/util.js"></script>
+  <script src="{$_W['siteroot']}app/resource/js/require.js"></script>
+  <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/lib/jquery-1.11.1.min.js?v=20160906"></script>
+  <script type="text/javascript" src="{$_W['siteroot']}app/resource/js/app/common.js?v=20160906"></script>
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{MODULE_URL}/template/static/css/weui1.0.1.min.css" rel="stylesheet">
+<link href="{MODULE_URL}/template/mobile/hengpai/css/style.css?v1={php echo time()}" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+  if(navigator.appName == 'Microsoft Internet Explorer'){
+    if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+      alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+    }
+  }
+  window.sysinfo = {
+    {if !empty($_W['uniacid'])}'uniacid': '{$_W['uniacid']}',{/if}
+    {if !empty($_W['acid'])}'acid': '{$_W['acid']}',{/if}{if !empty($_W['openid'])}'openid': '{$_W['openid']}',{/if}
+    {if !empty($_W['uid'])}'uid': '{$_W['uid']}',{/if}
+    'siteroot': '{$_W['siteroot']}',
+    'siteurl': '{$_W['siteurl']}',
+    'attachurl': '{$_W['attachurl']}',
+    'attachurl_local': '{$_W['attachurl_local']}',
+    'attachurl_remote': '{$_W['attachurl_remote']}',
+    {if defined('MODULE_URL')}'MODULE_URL': '{MODULE_URL}',{/if}
+    'cookie' : {'pre': '{$_W['config']['cookie']['pre']}'}
+  };
+  // jssdk config 对象
+  jssdkconfig = {php echo json_encode($_W['account']['jssdkconfig']);} || {};
+  // 是否启用调试
+  jssdkconfig.debug = false;
+  jssdkconfig.jsApiList = [
+    'checkJsApi',
+    'onMenuShareTimeline',
+    'onMenuShareAppMessage',
+    'onMenuShareQQ',
+    'onMenuShareWeibo',
+    'hideMenuItems',
+    'showMenuItems',
+    'hideAllNonBaseMenuItem',
+    'showAllNonBaseMenuItem',
+    'translateVoice',
+    'startRecord',
+    'stopRecord',
+    'onRecordEnd',
+    'playVoice',
+    'pauseVoice',
+    'stopVoice',
+    'uploadVoice',
+    'downloadVoice',
+    'chooseImage',
+    'previewImage',
+    'uploadImage',
+    'downloadImage',
+    'getNetworkType',
+    'openLocation',
+    'getLocation',
+    'hideOptionMenu',
+    'showOptionMenu',
+    'closeWindow',
+    'scanQRCode',
+    'chooseWXPay',
+    'openProductSpecificView',
+    'addCard',
+    'chooseCard',
+    'openCard'
+  ];
+  </script>
+<style>
+
+
+.menu_tousu>a {
+    margin-bottom: 7px;
+}
+.menu_tousu>a {
+    line-height: 2.5rem;
+    width: 2.55rem;
+    height: 2.55rem;
+    padding: 0rem;
+}
+
+.menu_tousu>a.lxxb{
+   font-size: .8rem;
+   line-height: 1rem;
+   padding-top:.3rem;
+   height: 2.25rem;
+}
+
+
+
+.gonggao{
+   margin:10px;
+   background:#f5e3e8;
+   padding:10px;
+   border-radius:5px;
+   border: 1px dashed #f21e59;
+   font-size:12px;
+   line-height:20px;
+}
+.gonggao img{
+   width:59px;
+}
+.ad_tip{
+    position: absolute; 
+    left: 0px; bottom: 0px; width: 29px; height: 16px; z-index: 12;
+    background: url('http://pic.wxl00.cn/img/2018/8/9/1ckc9fu7815bvnhmnj3gj81llgr.png') no-repeat;
+}
+.ad,.ggw {
+    position: relative;
+}
+
+</style>
+
+
+
+</head>
+<body class="_style index_page body_746928" >
+
+  {php $urldata=$_GPC['do'].",".$_W['uniacid'].",".$_GPC['rid'].",".$_GPC['id'];}
+<nav class="menu_tousu">
+<a href="{php echo $this->createMobileUrl('report')}&urldata={$urldata}">&#25237;&#35785;</a>
+
+</nav>
+
+<style>
+.menu_tousu{top:48px;}
+ 
+</style>
+{if $reply['notice']}
+<div id="marquee"><marquee style="WIDTH: 100%; HEIGHT: 35px" scrollamount="6" Align="Middle"  hspace="0" direction="Left" >{$reply['notice']}</marquee></div>
+{/if}
+        

@@ -1,0 +1,508 @@
+{template 'hengpai/header'}
+
+    
+
+
+{if $reply['isindexslide']==1}
+{template 'sider'}
+{/if}
+
+
+<style type="text/css">
+    
+
+    .tlt{display: none}
+    .pictures .bmimg{ width: 80px; height: 80px; float: left; position: unset; margin-right: 10px; display: inline-block; margin-bottom: 10px; border: 1px solid #ccc; }
+</style>
+
+
+<div class="pageTwo">
+    <div class="tabs"><a class="tsele" href="JavaScript:;">参赛报名处</a><a href="{php echo $this->createMobileUrl('prize', array('rid' => $rid))}">活动说明</a></div>
+    <div class="section2">
+      <div class="bm_form">
+          <form id="form1">
+              <div class="form_desc">
+                    <p><em>*</em><input type="text" data-validate="true" data-required="true" data-text="报名商家名称" placeholder="商家名称：" name="name" id="name" maxlength="50" value="" ></p>
+
+                    <p><em>*</em><input type="text" data-required="true" data-text="参赛宣言" placeholder="一句话描述自己的参赛宣言" id="introduction" name="introduction"  value=""  ></p>
+                    {php echo $tplappye[0];}
+                    <div class="picupload">
+                       
+                        
+
+
+            <p><em>*</em>{if $reply['minupimg']==$reply['maxupimg']}选择上传{$reply['maxupimg']}张照片，第一张为封面图。{else}   选择上传{$reply['minupimg']}-{$reply['maxupimg']}张照片，第一张为封面图。{/if}</p>
+
+
+
+                {if $reply['upimgtype']==1}
+
+                {php echo m('tpl')->tpl_app_form_field_image_tyzm('image', $image,$reply['rid']);}
+
+                {else}
+<div class="pictures" id="chooseImages" data_limit_max="5"><a href="javascript:" class="add_pic upload_btn"><i class="fa fa-file-picture-o"></i></a></div>
+<div style="clear: both;"></div>
+                {/if}
+
+               
+
+
+                    </div>
+                    
+                </div>
+                <div class="form_btn btn_bg_green" type="button">提交报名</div>
+          
+            </form>
+        </div>
+    </div>
+</div>
+
+
+ 
+<script>
+
+
+
+
+
+ $(document).ready(function(){
+
+        
+
+{if $reply['upimgtype']=="" || $reply['upimgtype']==0}
+
+      var images = {
+
+           localId: [],
+
+           serverId: []
+
+         };
+
+         
+
+        $("#chooseImages").click(function(){
+
+           wx.chooseImage({
+
+              count:{$reply['maxupimg']}, // 默认9
+
+              success: function (res) {
+
+                images.localId = res.localIds;
+
+                $("#chooseImages").html(""); 
+
+                for(var i=0;i < images.localId.length; i++){
+
+                    $("#chooseImages").append("<img src='"+images.localId[i]+"' class='bmimg' />");
+
+                }
+
+              },
+
+              fail: function(res) {
+
+                    //dialog2(res.errMsg);
+
+                    dialog2("请至公众号设置“js分享安全域名”！");
+
+              }
+
+           });
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+{/if}
+
+
+
+
+
+
+
+    $(".btn_bg_green").click(function(){
+
+            var upimages=[];
+
+            var upvideo=[];
+
+            var name=$("input[name='name']").val();
+
+            if(name==''){dialog2("请输入姓名");return false;}
+
+            var introduction=$("textarea[name='introduction']").val();
+
+            if(introduction==''){dialog2("参赛宣言不能为空！");return false;}
+
+            {php echo $tplappye[1];}
+
+            
+
+            {if $reply['upvideotype']==1}
+
+                $("input[name='video[]']").each(  
+
+                    function(index,e){  
+
+                    upvideo[index] = $(this).val();  
+
+                    }  
+
+                );
+
+                
+
+                var i = 0, length = upvideo.length;
+
+                if(length !=1){
+
+                   dialog2("请上传一个视频");return false;//1-5张照片
+
+                }
+
+                
+
+            {/if}
+
+             {if $reply['upimgtype']==1}
+
+                $("input[name='image[]']").each(  
+
+                    function(index,e){  
+
+                    upimages[index] = $(this).val();  
+
+                    }  
+
+                );
+
+                    var i = 0, length = upimages.length;
+
+                if(length < {$reply['minupimg']} || length > {$reply['maxupimg']}){
+
+                   var upimgtip={if $reply['minupimg']==$reply['maxupimg']}"请上传{$reply['maxupimg']}张图片。"{else}"请上传{$reply['minupimg']}-{$reply['maxupimg']}张图片"{/if};
+
+                   dialog2(upimgtip);return false;//1-5张照片
+
+                }
+
+
+
+                      //提交信息
+
+                        loadingToast("正在提交...");
+
+                        $(this).unbind();
+
+                        //提交报名
+
+                        $.ajax({
+
+                            type: "POST",
+
+                            url: "{php echo $this->createMobileUrl('join', array('rid' => $reply['rid']))}",
+
+                            data: {name:name,introduction:introduction,{php echo $tplappye[2];} picturearr:upimages,video:upvideo[0]},
+
+                            dataType: "json",
+
+                            success: function(str) {
+
+                                hidemod("loadingToast");
+
+                                if(str!=null && str!=''){
+
+                                    if(str.status == 1){
+
+                                        {if $reply['isredpackjoin']==1}
+
+                                            strid = str.id;
+
+                                            $("#redpackjoin").show();
+
+                                        {else}
+
+                                            location.href="{php echo $this->createMobileUrl('view', array('rid' => $reply['rid']))}&id="+str.id;
+
+                                        {/if}
+
+                                    }else if(str.status == 500){
+
+                                        $("#follow").show();
+
+                                    }else{
+
+                                        dialog2(str.msg);
+
+                                    }
+
+                                }
+
+                            },
+
+                            error: function(err) {
+
+                                hidemod("loadingToast");
+
+                                dialog2("发生错误，请刷新后重试！");
+
+                            }
+
+                        });
+
+
+
+            //提交报名
+
+
+
+
+
+
+
+            {else}
+
+
+
+                var i = 0, length = images.localId.length;
+
+                if(length < {$reply['minupimg']} || length > {$reply['maxupimg']}){
+
+                   images.localId = [];
+
+                   var upimgtip={if $reply['minupimg']==$reply['maxupimg']}"请上传{$reply['maxupimg']}张图片。"{else}"请上传{$reply['minupimg']}-{$reply['maxupimg']}张图片"{/if};
+
+                   dialog2(upimgtip);return false;//1-5张照片
+
+                }
+
+            images.serverId = [];
+
+            function upload() {
+
+              wx.uploadImage({
+
+                 localId: images.localId[i],
+
+                 isShowProgressTips:2,
+
+                 success: function (res) {
+
+                   i++; 
+
+                   images.serverId.push(res.serverId);
+
+                   if (i < length) {
+
+                      upload(); 
+
+                   } else {
+
+                      upimages=images.serverId;
+
+
+
+
+
+                      //提交信息
+
+                        loadingToast("正在提交...");
+
+                        $(this).unbind();
+
+                        //提交报名
+
+                        $.ajax({
+
+                            type: "POST",
+
+                            url: "{php echo $this->createMobileUrl('join', array('rid' => $reply['rid']))}",
+
+                            data: {name:name,introduction:introduction,{php echo $tplappye[2];} picturearr:upimages,video:upvideo[0]},
+
+                            dataType: "json",
+
+                            success: function(str) {
+
+                                hidemod("loadingToast");
+
+                                if(str!=null && str!=''){
+
+                                    if(str.status == 1){
+
+                                        {if $reply['isredpackjoin']==1}
+
+                                            strid = str.id;
+
+                                            $("#redpackjoin").show();
+
+                                        {else}
+
+                                            location.href="{php echo $this->createMobileUrl('view', array('rid' => $reply['rid']))}&id="+str.id;
+
+                                        {/if}
+
+                                    }else if(str.status == 500){
+
+                                        $("#follow").show();
+
+                                    }else{
+
+                                        dialog2(str.msg);
+
+                                    }
+
+                                }
+
+                            },
+
+                            error: function(err) {
+
+                                hidemod("loadingToast");
+
+                                dialog2("发生错误，请刷新后重试！");
+
+                            }
+
+                        });
+
+
+
+            //提交报名
+
+                      //
+
+                      //
+
+
+
+                   }
+
+                 },
+
+                 fail: function (res) {
+
+                    hidemod("loadingToast");
+
+                    dialog2("发现错误，请重试");return false;
+
+                 }
+
+              });
+
+            }
+
+           upload();
+
+            {/if}
+
+       
+
+    });
+
+    {if $nofollow==1}
+
+         setTimeout($("#follow").show(),30000);//延时3秒 
+
+    {/if}
+
+    
+
+    {if $reply['isredpackjoin']==1}
+
+        $("#lotteryjoin").click(function(){
+
+            $(this).hide();
+
+            lottery("{MODULE_URL}/template/static/images/redpack3.png","红包在路上！","红包来的路上，请耐心等待...");
+
+            $(".redpackimg img").addClass('rolls');
+
+            var voteid=$(this).attr('voteid-data'); 
+
+            $.ajax({
+
+                type: "POST",
+
+                url: "{php echo $this->createMobileUrl('joinredpack', array('rid' => $reply['rid']))}",
+
+                dataType: "json",
+
+                success: function(str) {
+
+                    if(str!=null && str!=''){
+
+                        $(".redpackimg img").removeClass('rolls');
+
+                        if(str.status == 1){
+
+                            lottery("{MODULE_URL}/template/static/images/redpack5.png",str.msg,"请关注公众号或服务信息，领取现金红包！");
+
+                        }else if(str.status == 0){
+
+                            lottery("{MODULE_URL}/template/static/images/redpack2.png","哎哟，就差一点点","继续积累运气，等待下一次大奖的到来！");
+
+                        }
+
+                    }
+
+                },
+
+                error: function(err) {
+
+                    hidemod("loadingToast");
+
+                    dialog2("发生错误，请刷新后重试！");
+
+                }
+
+            });
+
+        });
+
+        function lottery(img,t1,t2){
+
+            $(".redpackimg img").attr('src',img); 
+
+            $(".redtishi").html(t1);
+
+            $(".redtirp").html(t2);
+
+        }
+
+    {/if}
+
+    
+
+ });
+
+var strid = "";
+
+function gotoUrl(){
+
+    if(strid){
+
+        location.href="{php echo $this->createMobileUrl('view', array('rid' => $reply['rid']))}&id="+strid;
+
+    }
+
+}
+
+</script>
+
+
+
+{template 'hengpai/footer'}

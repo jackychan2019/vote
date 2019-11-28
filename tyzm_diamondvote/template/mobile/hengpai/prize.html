@@ -1,0 +1,89 @@
+{template 'hengpai/header'}
+
+    
+<div class="banner">
+
+{if $reply['isindexslide']==1}
+{template 'sider'}
+{/if}
+</div>
+
+
+
+<style>
+.intro img{
+    max-width: 100% !important;
+    margin: 0 auto;
+}
+.intro .text2 img{
+    width: 70%;
+    margin: 0 auto;
+}
+section.intro p.text2 {
+    width: 100%;
+}
+.zanzhushang {
+    width: 100%;
+}
+.zanzhushang img {
+    max-width: 100%;
+}
+.r2{color: red;   font-weight: 700;}
+.r{color:rgb(251,0,255);font-weight: 700;}
+.r3{color:rgb(131,198,245);font-weight: 700;}
+.big_guize{
+    line-height: 21px;
+}
+.text2 img.ad{
+    width: 98%;margin: 3px auto;display:block;
+}
+</style>
+
+
+
+<section class="intro">
+  <div class="pageTwo">
+      <div class="tabs"><a class="tsele taba" style="width:40%;" href="javascript:;">活动规则</a><a class="tsele1 taba" style="width:40%;" href="javascript:;">奖品介绍</a></div>
+      <div class="section2">
+          <div class="rule_main">
+              <ul class="rule_part">
+
+                <li class="big_guize">
+
+{if $reply['eventrule']==""}
+     请至后台编辑活动，设置活动规则内容，支持HTML！
+  {else}
+   {$reply['eventrule']}
+  {/if}
+
+              </li>
+              <li class="big_guize" style="display: none">
+
+{if $reply['prizemsg']==""}
+     请至后台编辑活动，设置活动内容！
+  {else}
+     {$reply['prizemsg']}
+  {/if}
+
+              </li>
+
+              </ul>
+          </div>
+      </div>
+  </div>  
+</section>
+
+<script>
+
+$('.tabs a').click(function() {
+            var i = $(this).index();//下标第一种写法
+            //var i = $('tit').index(this);//下标第二种写法
+            $(this).addClass('tsele').siblings().removeClass('tsele');
+            $('.rule_part li').eq(i).show().siblings().hide();
+        });
+
+
+</script>
+
+
+{template 'hengpai/footer'}

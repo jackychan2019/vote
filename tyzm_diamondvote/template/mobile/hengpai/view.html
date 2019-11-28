@@ -1,0 +1,496 @@
+{template 'hengpai/header'}
+<script type="text/javascript" src="{MODULE_URL}/template/static/js/verify.min.js"></script>
+ <link href="{MODULE_URL}/template/static/css/verify.css" rel="stylesheet">
+   <style>
+.mpanell-shade{display:none;background:rgba(0,0,0,.5);position:fixed;left:0;top:0;width:100%;}#mpanel1{height:100%;display:flex;align-items:center;justify-content:center;}
+  a{text-transform: none;}
+  .giftstatus{display: none}
+</style> 
+    <div class="banner">
+
+    {if $reply['isindexslide']==1}
+    {template 'sider'}
+    {/if}
+    </div>
+
+
+
+
+
+
+
+
+
+<style>
+.cinform2 {
+    padding-left: 0px;
+    padding-bottom: 10px;
+    _border-bottom: 1px solid #d7d7d7;
+    _margin-bottom: 15px;
+}
+.inform1 {
+    border-bottom: 0px solid #d7d7d7;
+    padding-bottom: 0px;
+}
+b.shopname{
+    font-size: 1.0rem;
+}
+.cinform {
+    border-radius: 4px;
+}
+.cinform .btns p {
+    margin: 20px auto;
+}
+
+</style>
+
+<div class="pageTwo">
+    <div class="section2">
+        <div class="center">
+
+            <div class="cinform">
+                <div class="cinform2">
+                    <div class="inform1">
+                        <p><i class="fa fa-id-badge"></i>  {$voteuser['noid']}号  <b class="shopname">{$voteuser['name']}</b>  {if $voteuser['status']==0}
+<span class="label label-danger">  待审核</span>{/if}  <span><i class="fa fa-thumbs-o-up"></i> <em class="red" id="tp_327">{$voteuser['votenum']}</em> {$votecnameunit}</span>
+{if  $reply['diamondmodel']!=1 && $reply['isshowgift']<3}
+     </br> <span class="red" ><i class="fa fa-gift"></i> <em >{php echo $voteuser['giftcount']*$reply['giftscale'];}</em> {$reply['giftunit']}</span>
+  {/if}
+</p>
+  
+                    </div>
+                    <div class="inform2">
+                        <!-- <p><span>排名：第 2 名</span><a href="http://w073.sd44.cn/vote/746928/index.php?li=3&amp;zu=0#paim">查看排行榜 &gt;&gt;</a></p> -->
+{if !empty($voteuser['introduction'])}
+<p><i class="f1_name">  宣言：</i>{$voteuser['introduction']}</p>
+{/if}
+{if !empty($joininfo)}      
+   {loop $joininfo $rom}
+
+   {if $rom['val']!=''}
+       {if $rom['name']=="性别"}
+           <p><i class="f1_name"> {$rom['name']}：</i>{if $rom['val']==2}女{else}男{/if}</p>
+      {else}
+           <p><i class="f1_name"> {$rom['name']}：</i> {$rom['val']} </p>
+      {/if}
+     {/if}
+   {/loop}
+{/if}
+                   
+                    </div>
+                </div>
+                <div class="btns">
+                    <a href="javascript:"   class="bg_org votebtn {if !empty($reply['verifycode'])} showverify  {else} mytoupiao {/if}"><p><i class="fa fa-heart"></i> <span>投一票</span></p></a>
+                    {if $reply['diamondmodel']==0}
+                    <a href="{php echo $this->createMobileUrl('gift', array('rid' => $reply['rid'],'id' => $voteuser['id']))}" class="bg_org"><p style="background: #673AB7;"><i class="fa fa-gift"></i> <span>送礼物</span></p></a>
+                    {/if}
+                </div>
+
+
+
+
+
+
+
+            <div class="pics2">
+                {if $voteuser['img1']!=''}
+                <div class="swiper-slide"><img class="preview" src="{$voteuser['img1']}"></div>
+                {/if}
+                {if $voteuser['img2']!=''}
+                <div class="swiper-slide"><img class="preview" src="{$voteuser['img2']}"></div>
+                {/if}
+                {if $voteuser['img3']!=''}
+                <div class="swiper-slide"><img class="preview" src="{$voteuser['img3']}"></div>
+                {/if}
+                {if $voteuser['img4']!=''}
+                <div class="swiper-slide"><img class="preview" src="{$voteuser['img4']}"></div>
+                {/if}
+                {if $voteuser['img5']!=''}
+                <div class="swiper-slide"><img class="preview" src="{$voteuser['img5']}"></div>
+                {/if}
+
+           
+
+           </div>
+
+
+
+
+
+
+ 
+ 
+                <div class="btns">
+                    <a href="javascript:"   class="bg_org votebtn {if !empty($reply['verifycode'])} showverify  {else} mytoupiao {/if}"><p><i class="fa fa-heart"></i> <span>投一票</span></p></a>
+                    {if $reply['diamondmodel']==0}
+                    <a href="{php echo $this->createMobileUrl('gift', array('rid' => $reply['rid'],'id' => $voteuser['id']))}" class="bg_org"><p style="background: #673AB7;"><i class="fa fa-gift"></i> <span>送礼物</span></p></a>
+                    {/if}
+                </div>
+ 
+               
+
+            </div>
+        </div>
+
+    </div>
+{if $reply['diamondmodel']!=1  && ($reply['isshowgift']=="" || $reply['isshowgift']==0 || $reply['isshowgift']==2 || $reply['isshowgift']==4)}
+<section class="intro">
+<div class="zuanlist">
+   <div class="tabs"><a class="tsele taba"  href="javascript:;">礼物列表</a></div>
+   <ul>
+   
+   </ul>
+   <div id="list_more" class="box" style="text-align: center;margin-bottom: 10px;"><span class="am-text-secondary" onclick="get_list('0');">查看更多</span></div>
+</div>
+</section>
+{/if}
+
+{if $voteuser['details']!=""}
+<section class="intro">
+  <div class="pageTwo">
+      <div class="section2">
+          <div class="rule_main">
+              <ul class="rule_part">
+                <div class="tabs" style="margin-top: -10px; margin-bottom: 10px;"><a class="tsele taba"  href="javascript:;">选手详情</a></div>
+                <li class="big_guize">
+{$voteuser['details']}
+              </li>
+              </ul>
+          </div>
+      </div>
+  </div>  
+</section>
+{/if}
+    {if $reply['isdetails']==1}
+<section class="intro">
+  <div class="pageTwo">
+      
+      <div class="section2">
+
+          <div class="rule_main">
+              <ul class="rule_part">
+                <div class="tabs" style="margin-top: -10px; margin-bottom: 10px;"><a class="tsele taba"  href="javascript:;">活动规则</a></div>
+
+                <li class="big_guize">
+
+{if $reply['eventrule']==""}
+     请至后台编辑活动，设置活动规则内容，支持HTML！
+  {else}
+   {$reply['eventrule']}
+  {/if}
+
+              </li>
+            
+
+              </ul>
+          </div>
+      </div>
+  </div>  
+</section>
+{/if}
+</div>
+
+
+
+</style>
+<div class="succeed" id="succeed" style="display:none" onclick="hidemod('succeed');">
+       <div class="voteadd" >
+           <p class="voteuser" ><img src="{media  $voteuser['avatar']}" width="25"/>{$voteuser['name']}</p>
+           <div class="votets">
+
+            <P><span class="votemsg">点赞成功，今天您还可以投5 {$votecnameunit}。:-D</span></P>
+
+
+            <P class="uservoteinfo">    </P>
+           {if $reply['diamondmodel']!=1}
+           <P class="giftstatus">
+            <span class="votetrip"><i class="fa fa-hand-o-down"></i> 点击下面按钮，给TA送礼物
+           
+           ！</span> </P>
+            {/if}
+        </div>
+           
+           <p class="adtext">{$reply['voteadtext']}</p>
+
+           {if $reply['diamondmodel']!=1}
+           <div class='vsav giftstatus'><div class='vbtn_tnk'><a href="{php echo $this->createMobileUrl('gift', array('rid' => $rid,'id' => $voteuser['id']))}"> <i class="fa fa-gift"></i>  送他礼物</a></div></div>
+           {/if}
+       </div>
+   <div class="weui-mask" onclick="hidemod('succeed');"></div>
+</div>
+<div class="mpanell-shade">
+    <div id="mpanel1"></div>
+</div>
+<script>
+ 
+$(document).ready(function(){
+       $('.mpanell-shade').height($(window).height()).hide().click(function(e){ 
+         if(!$(e.target).parents('#mpanel1').length) $(this).hide();
+       });
+        $(".showverify").click(function(e){
+            $('.mpanell-shade').show();
+        });
+         
+    //开屏广告start
+    {if $reply['islinkpage']=='2'&&$isopenlink=='first'}
+        require(['bootstrap', 'hammer'], function($, Hammer){ 
+        $('#linkpageDiv').carousel();
+            var mc = new Hammer($('#linkpageDiv').get(0));
+            mc.on("panleft", function(ev) {
+                $('#linkpageDiv').carousel('next');
+            });
+            mc.on("panright", function(ev) {
+                $('#linkpageDiv').carousel('prev');
+            });
+        });
+        $('#linkpageFull,#linkpageDiv').on("touchmove",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+        })
+        var countdown="{$reply['linkpagetime']}";
+        function settime() {
+            if (countdown == 0) {
+                $('#linkpageFull,#linkpageDiv').hide();
+                return;
+            } else {
+                $('#times').html("广告("+(countdown<10?"0":"")+countdown+")");
+                countdown--;
+            }
+            setTimeout(function() {
+                        settime() }
+                    ,1000)
+        }
+        settime();
+    {/if}
+    //开屏广告start
+    
+var latitude=0;
+var longitude=0;
+{if (!empty($reply['area']) && empty($reply['locationtype'])) || $reply['redpackarea']!=""}
+
+    wx.ready(function (){
+        wx.getLocation({
+        type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            success: function (res) {
+                latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                var speed = res.speed; // 速度，以米/每秒计
+                var accuracy = res.accuracy; // 位置精度
+                hidemod("loadingToast");
+            },
+            cancel: function (res) {
+                    hidemod("join");
+                    dialog2('拒绝授权获取地理位置，无法参加活动！请刷新后，同意再继续！');
+                    hidemod("loadingToast");
+            },
+        });   
+    }); 
+{/if}
+
+  $(".mytoupiao").click(function(){
+    submitFn();
+  });
+ function submitFn(){
+
+    {if !empty($reply['area']) && empty($reply['locationtype'])}
+       if(latitude==0 || longitude==0){
+          loadingToast("获取位置...");return false;
+       }
+    {/if}
+    loadingToast("{$votecname}中");
+    $.ajax({
+        type: "POST",
+        url: "{php echo $this->createMobileUrl('vote', array('rid' => $reply['rid'],'id' => $voteuser['id']))}",
+        data: {latitude:latitude,longitude:longitude},
+        dataType: "json",
+        success: function(str) {
+            hidemod("loadingToast");
+            
+            if(str!=null && str!=''){
+                if (str.giftstatus==1) {
+                    $('.giftstatus').show();
+                }
+                if(str.uservoteinfo=== undefined || str.uservoteinfo == null){
+            
+          }else{
+            $(".uservoteinfo").html('目前第 '+str.uservoteinfo.rank+' 名，距离上一名差 '+str.uservoteinfo.votecha+ ' {$votecnameunit}!');
+          }
+                if(str.status == 1){
+                    $(".votenum").html(Number($(".votenum").html())+1);
+                    $(".votemsg").html(str.msg);
+                    {if $reply['votesucceed'] == 1}
+                    location.href="{php echo $this->createMobileUrl('votesucceed', array('rid' => $reply['rid'],'id'=>$voteuser['id'],'diamondmodel'=>$reply['diamondmodel']))}&rank="+str.uservoteinfo.rank+"&votecha="+str.uservoteinfo.votecha;
+                   {else}
+                    $("#succeed").show();
+                   {/if}
+                    
+                    /*
+                    
+                    {if $reply['isredpack']=='1'}
+                      if(str.voteid){
+                        $("#lottery").attr('voteid-data',str.voteid); 
+                        $("#redpack").show();
+                      }else{
+                        $("#succeed").show();
+                        
+                        //
+                        //
+                        //location.href="{php echo $this->createMobileUrl('votesucceed', array('rid' => $reply['rid'],'id'=>$voteuser['id']))}";
+                      }
+                    {else if $reply['voteadimg']!=""}
+                       //window.setTimeout("$('#redpack').show();",500);
+                
+                       $("#succeed").show();
+                       //location.href="{php echo $this->createMobileUrl('votesucceed', array('rid' => $reply['rid'],'id'=>$voteuser['id']))}";
+                    {else}
+                       //toast("{$votecname}成功");
+                       $("#succeed").show();
+                       //location.href="{php echo $this->createMobileUrl('votesucceed', array('rid' => $reply['rid'],'id'=>$voteuser['id'],'diamondmodel'=>$reply['diamondmodel']))}";
+                      
+
+                    {/if}
+                    */
+                    
+                }else if(str.status == 0){
+                    $(".votemsg").html(str.msg);
+                    $("#succeed").show();
+                }else if(str.status == 500){
+                    $("#follow").show();
+                }else{
+                    $(".votemsg").html(str.msg);
+                    $("#succeed").show();
+                }
+            }
+        },
+        error: function(err) {
+            hidemod("loadingToast");
+            dialog2("发生错误，请刷新后重试！");
+        }
+    });
+};
+
+$('#mpanel1').slideVerify({
+                type : 1,       //类型
+                vOffset : 5,    //误差量，根据需求自行调整
+                barSize : {
+                    width : '80%',
+                    height : '40px',
+                },
+                ready : function() {
+                },
+                success : function(obj) {
+                    $('.mpanell-shade').hide();
+                    submitFn();
+                    obj.refresh();
+                },
+                error : function() {
+                }
+});
+
+
+{if $reply['isredpack']==1}
+        $("#lottery").click(function(){
+        $(this).hide();
+        lottery("{MODULE_URL}/template/static/images/redpack3.png","红包在路上！","红包来的路上，请耐心等待...");
+        $(".redpackimg img").addClass('rolls');
+        var voteid=$(this).attr('voteid-data'); 
+        $.ajax({
+            type: "POST",
+            url: "{php echo $this->createMobileUrl('lotteryredpack', array('rid' => $reply['rid']))}",
+            dataType: "json",
+            data: {latitude:latitude,longitude:longitude,voteid:voteid},
+            success: function(str) {
+                if(str!=null && str!=''){
+                    $(".redpackimg img").removeClass('rolls');
+                    if(str.status == 1){
+                        lottery("{MODULE_URL}/template/static/images/redpack5.png",str.msg,"请关注公众号或服务信息，领取现金红包！");
+                    }else if(str.status == 0){
+                        lottery("{MODULE_URL}/template/static/images/redpack2.png","哎哟，就差一点点","继续积累运气，等待下一次大奖的到来！");
+                    }
+                }
+            },
+            error: function(err) {
+                hidemod("loadingToast");
+                dialog2("发生错误，请刷新后重试！");
+            }
+        });
+    });
+function lottery(img,t1,t2){
+    $(".redpackimg img").attr('src',img); 
+    $(".redtishi").html(t1);
+    $(".redtirp").html(t2);
+}
+{/if}
+
+     $("#previewImage img").click(function(){
+        var imgArray = [];
+        var curImageSrc = $(this).attr('src');
+        var oParent = $(this).parent();
+        if (curImageSrc && !oParent.attr('href')) {
+            $('#previewImage img').each(function(index, el) {
+                var itemSrc = $(this).attr('src');
+                imgArray.push(itemSrc);
+            });
+            wx.previewImage({
+                current: curImageSrc,
+                urls: imgArray
+            });
+        }
+    });
+
+});
+
+
+{if $reply['diamondmodel']!=1  && ($reply['isshowgift']=="" || $reply['isshowgift']==0 || $reply['isshowgift']==2|| $reply['isshowgift']==4)}
+var limit = 1;
+function get_list(){    
+    $("#list_more").html('<div class="am-text-secondary"><span class="am-icon-spinner am-icon-spin">卖命加载中...</span> </div>');
+    $.ajax({
+        type : "post",
+        url : "{php echo $this->createMobileUrl('view',array('rid'=>$rid,'id'=>$id))}",
+        data : {
+            limit:limit,
+        },
+        dataType : "json",      
+        success : function(data) {
+            if(data.status==200){
+                        var list = data.content;
+                        var content = '';
+                        $(".zuanlist ul").append(list);
+                        for(var i=0; i<list.length; i++){
+                              content = '<li><img src="'+list[i]['avatar']+'"><p>'+list[i]['cont']+'<br/><span>'+list[i]['createtime']+'</span></p></li>';
+                            $(".zuanlist ul").append(content);
+                        }
+                        if(list.length==10){
+                            $("#list_more").html('<span class="am-text-secondary" onclick="get_list();">查看更多</span>');
+                        }else{
+                            $("#list_more").html('');
+                        }
+                        limit++;        
+            }else if(data.status==-103){
+                $("#list_more").html('<span>没有更多记录！</span>');
+            }else{
+                $("#list_more").html('<span>没有更多记录！</span>');
+            }       
+        },
+        error : function(xhr, type) {
+
+        }
+    });
+}
+get_list();
+
+{/if}
+
+
+    
+
+ 
+function GetRandomNum(Min,Max)
+{   
+var Range = Max - Min;   
+var Rand = Math.random();   
+return(Min + Math.round(Rand * Range));   
+}  
+</script>
+{template 'hengpai/footer'}

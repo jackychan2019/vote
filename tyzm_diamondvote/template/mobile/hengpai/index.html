@@ -1,0 +1,180 @@
+{template 'hengpai/header'}
+    
+    {if $reply['isindexslide']==1}
+    {template 'sider'}
+    {/if}
+    <div class="banner">
+      {if $reply['topimg']!=""}
+<img src="{php echo tomedia($reply['topimg']);}" alt="shareImg">
+{/if}
+    </div>
+
+    <div class="search">
+    <i class="fa fa-search" style="color: #ccc"></i><input type="search" id="keys" value="" name="sci" placeholder="请输入编号或姓名" autocomplete="off"/>
+            <div class="search_btn" >搜&nbsp;索</div>
+    </div>
+
+<script>
+    $(".search #keys").focus(function(){
+        $(".search").addClass("searching");
+    });
+  
+    $(".search #keys").blur(function(){
+      if($(this).val()==""){
+        $(".search").removeClass("searching");  
+      }
+    });
+</script>
+
+
+<div class="pageOne">
+
+    <div class="section1">
+        <div class="tj">
+          <span><i class="fa fa-user-o"></i> 已报名<br/><em>{$jointotal}</em></span><span><i class="fa fa-thumbs-o-up"></i> {$votecname}人次<br/><em>{$votetotal}</em></span><span><i class="fa fa-hand-pointer-o"></i> 访问量<br/><em>{$pvtotal}</em></span>
+        </div>
+        <div class="TimeRlue">
+            <a href="{php echo $this->createMobileUrl('prize', array('rid' => $rid))}"><div class="Rule"> 
+                <i class="fa fa-file-text-o"></i><br/>活动详情
+            </div></a>
+            <div class="Time" id="getting-started">
+<div class="time-item" style="font-size: 1.6rem;color: red">
+    <div class="day" style="    font-size: 16px;  color: #ccc;"><i class="fa fa-hourglass-2"></i> 距离活动结束还有</div>
+  <strong id="day_show">0<span> 天</span></strong>
+  <strong id="hour_show">0<span> 时</span></strong>
+  <strong id="minute_show">0<span> 分</span></strong>
+  <strong id="second_show">0<span> 秒</span></strong>
+</div>
+
+            </div>
+        </div>
+
+        
+    </div>
+   
+  
+
+    <div class="section2 " id="paim">
+      <div class="nav_tab"><a class="{if $_GPC['sort']=='11'}nav_sele{/if}" href="{php echo $this->createMobileUrl('index', array('rid' => $rid,'sort'=>11))}">最新参与</a><a class="{if $_GPC['sort']!=11}nav_sele{/if}" href="{php echo $this->createMobileUrl('index', array('rid' => $rid))}">默认排序</a><a  class="" href="{php echo $this->createMobileUrl('ranking', array('rid' => $rid))}">排行榜</a></div>
+        <div class="list datalist">
+        </div> 
+<script type="text/javascript">
+  $('.search_btn').click(function(){ 
+     get_list(1);
+  });
+
+var limit = 1;
+function get_list(ty){
+    
+  if(ty==1){
+     var keyword=$("input[name='sci']").val();
+     if(keyword==""){
+        dialog2("请输入编号或姓名");
+        return false;
+     }
+     $(".datalist").html('');
+  }else{
+     $("#list_more").html('<div class="am-text-secondary"><span class="am-icon-spinner am-icon-spin">卖命加载中...</span> </div>');
+     var keyword="";
+  }
+  $('.imgClass').height(window.innerHeight*8/10).width(window.innerWidth*8/10);
+  $.ajax({
+      type : "post",
+      url : "{php echo $this->createMobileUrl('Index',array('rid'=>$rid,'sort'=>$_GPC['sort']))}",
+      data : {
+        limit:limit,
+      keyword:keyword
+      },
+        dataType : "json",    
+      success : function(data) {
+        if(data.status==200){
+            var list = data.content;
+            var content = '';
+            for(var i=0; i<list.length; i++){
+          content += '<div class="item">'
+              +'<a href="'+list[i]['url']+'"><img src="'+list[i]['img1']+'" class="item_img"/></a><div class="item_infor">'
+              +'<a href="'+list[i]['url']+'">'
+              +'<p><i class="fa fa-id-badge"></i> '+list[i]['noid']+'号</p>'
+              +'<p class="item_name"><i class="fa fa-street-view"></i> '+list[i]['name']+'</p></a>'
+              +'<p class="piao"><i class="fa fa-thumbs-o-up"></i> <em id="tp_69">'+list[i]['votenum']+'</em> {$votecnameunit}</p>'
+              +'<a href="'+list[i]['url']+'"><div  class="toup">投TA一{$votecnameunit}<i class="fa fa-heart"></i></div></a></div></div>';
+              
+            }
+                        $(".datalist").append(content);
+            if(list.length=={$psize}){
+              $("#list_more").html('<span class="am-text-secondary" onclick="get_list(0);">查看更多</span>');
+            }else{
+              $("#list_more").html('');
+            }   
+                      limit++;
+        }else if(data.status==-103){
+          $("#list_more").html('<span>没有更多记录！</span>');
+        }else if(data.status==301){
+          $("#list_more").html('<span>没有搜索到内容！</span>');
+        }else{
+          $("#list_more").html('<span>没有更多记录！</span>');
+      }     
+      },
+      error : function(xhr, type) {
+
+      }
+  });
+      
+
+}
+get_list(0);
+
+var intDiff = parseInt({php echo $reply['endtime']-time();});//倒计时总秒数量
+function timer(intDiff){
+  window.setInterval(function(){
+  var day=0,
+    hour=0,
+    minute=0,
+    second=0;//时间默认值    
+  if(intDiff > 0){
+    day = Math.floor(intDiff / (60 * 60 * 24));
+    hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+    minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+    second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+  }
+  if (minute <= 9) minute = '0' + minute;
+  if (second <= 9) second = '0' + second;
+  $('#day_show').html(day+"<span> 天</span>");
+  $('#hour_show').html('<s id="h"></s>'+hour+'<span> 时</span>');
+  $('#minute_show').html('<s></s>'+minute+'<span> 分</span>');
+  $('#second_show').html('<s></s>'+second+'<span> 秒</span>');
+  intDiff--;
+  }, 1000);
+} 
+
+
+timer(intDiff);
+
+
+// 滚动刷新satrt
+var nowscrollTop=$(document).scrollTop();
+  $(window).scroll(function(){
+    console.log($(document).scrollTop());
+    var u=navigator.userAgent;
+    var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if ($(document).scrollTop() >= $(document).height() - $(window).height() && (($(document).scrollTop()-nowscrollTop)>=100 || !isiOS)) {
+      get_list(0);
+      console.log($(document).scrollTop()-nowscrollTop);
+      nowscrollTop=$(document).scrollTop();
+    }
+  });
+
+//滚动刷新end
+</script>
+
+
+
+
+
+
+
+    </div>
+</div>
+
+{template 'hengpai/footer'}
+

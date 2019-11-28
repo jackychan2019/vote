@@ -1,0 +1,307 @@
+﻿
+
+<style>
+.section2 {
+    padding-bottom: 0px;
+}
+.copyright{
+    margin-bottom: 73px;color: #a09fa0;display: block;text-align: center;font-size: 11px;
+}
+</style> 
+
+
+
+
+
+
+
+<div class="footer">
+        <a href="{php echo $this->createMobileUrl('index', array('rid' => $rid))}" {if $_GPC['do'] == 'index' || $_GPC['do'] == '' }class="nav_choise"{/if} ><i class="fa fa-home"></i><br/>首页</a>
+
+
+        
+ 
+		
+
+{if $myvoteid!="" }
+<a href="{php echo $this->createMobileUrl('view', array('rid' => $rid,'id' => $myvoteid))}" {if  $myvoteid == $_GPC['id']}class="nav_choise"{/if}  class=""><i class="fa fa-user"></i><br/>我的</a>
+{else}
+
+{if $aptime!=2}
+<a href="JavaScript:;" onclick="get_ap();"  {if $_GPC['do'] == 'join'}class="nav_choise"{/if}><i class="fa fa-plus-circle"></i><br/>立即报名</a>
+{/if}
+
+{/if}
+
+
+
+       
+        <a href="{php echo $this->createMobileUrl('prize', array('rid' => $rid))}"  {if $_GPC['do'] == 'prize'}class="nav_choise"{/if}><i class="fa fa-file-text"></i><br/>活动详情</a>
+         <a href="{php echo $this->createMobileUrl('ranking', array('rid' => $rid))}" {if $_GPC['do'] == 'ranking' }class="nav_choise"{/if} ><i class="fa fa-signal"></i><br/>排行榜</a>
+</div>
+
+ 
+
+
+<script type="text/javascript">
+function get_ap(){
+  {if $aptime==1}
+      dialog2("未开始报名！报名时间为：</br> {php echo date('Y-m-d',$reply['apstarttime'])} 至 {php echo date('Y-m-d ',$reply['apendtime'])}");
+	  return false;
+  {/if}
+  location.href="{php echo $this->createMobileUrl('join', array('rid' => $rid))}";
+}
+</script>
+<!---YI FU YUAN MA WANG-->
+<link rel="stylesheet" href="https://cdn.staticfile.org/animate.css/3.5.2/animate.min.css">
+
+
+
+<style>
+    .layui-m-layer0 .browserTips {
+        width:300px;
+        }
+    .browserTips .layui-m-layercont{
+        padding:15px 0;
+        }
+    .browserTips .layui-m-layerbtn{
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        line-height: 30px;
+        top: 0;
+        right: 0;
+        border:0;
+        background:#fff;
+        }
+    .browserTips .layui-m-layerbtn span{
+        font-size:18px;
+        color:#373737;
+        }
+    .browserTips .qrcode img{
+        width:180px;
+        height:180px;
+        margin:0 auto 10px;
+        }
+    .browserTips .br_item{
+        clear:both;
+        overflow:hidden;
+        margin:10px 0 0;
+        }
+    .browserTips .br_item i{
+        width: 32px;
+        height: 32px;
+        vertical-align: middle;
+        float:left;
+        }
+    .browserTips .extension{
+        display:inline-block;
+        }
+    .browserTips .br_item .cont{
+        float:left;
+        font-size:12px;
+        text-align:left;
+        padding-left:10px;
+        }
+    .browserTips .br_item .cont h4{
+        font-size:14px;}
+    .browserTips .br_item .cont h4 span{
+        color:#F44336;
+        }
+    .web_wechat_login_phone_icon {
+        background: url(http://pic.wxl00.cn/vote/images/sprite28a2f7.png) 0 -1135px;
+    }
+    .web_wechat_login_scan_icon {
+        background: url(http://pic.wxl00.cn/vote/images/sprite28a2f7.png) 0 -1167px;
+    }
+    #qrcode_001{
+        display: none;
+    }
+    .rightIcon{
+        display: none;
+    }
+</style>
+
+
+<style>
+#marquee {
+    position: fixed !important;
+} 
+</style>
+	<!-- 提示弹窗start -->
+
+
+
+<div id="dialog2" style="opacity: 1;display:none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">返回错误！</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:hidemod('dialog2');" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+            </div>
+        </div>
+</div> 
+
+<div id="toast" style="opacity: 1; display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content" style="color:#fff">已完成</p>
+        </div>
+</div>
+<div id="loadingToast" style="opacity: 1; display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content" style="color:#fff">数据加载中</p>
+        </div>
+</div>
+<!-- 提示弹窗start -->
+{php echo m('tpl')->tpl_footer();}
+
+        {if empty($footer_off)}
+            <div class="text-center footer" style="display:none;">
+                {if !empty($_W['page']['footer'])}
+                    {$_W['page']['footer']}
+                {else}
+                    
+                {/if}
+                &nbsp;&nbsp;{$_W['setting']['copyright']['statcode']}
+            </div>
+        {/if}
+    
+        
+    </div>
+    <!-- 提示弹窗start -->
+
+
+
+<div id="dialog2" style="opacity: 1;display:none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">返回错误！</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:hidemod('dialog2');" class="weui-dialog__btn weui-dialog__btn_primary">确定</a>
+            </div>
+        </div>
+</div> 
+
+<div id="toast" style="opacity: 1; display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content" style="color:#fff">已完成</p>
+        </div>
+</div>
+<div id="loadingToast" style="opacity: 1; display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content" style="color:#fff">数据加载中</p>
+        </div>
+</div>
+<!-- 提示弹窗start -->
+<?php
+    $_share['title'] = !empty($_share['title']) ? $_share['title'] : $_W['account']['name'];
+    $_share['imgUrl'] = !empty($_share['imgUrl']) ? $_share['imgUrl'] : '';
+    if(isset($_share['content'])){
+        $_share['desc'] = $_share['content'];
+        unset($_share['content']);
+    }
+    $_share['desc'] = !empty($_share['desc']) ? $_share['desc'] : '';
+    $_share['desc'] = preg_replace('/\s/i', '', str_replace('   ', '', cutstr(str_replace('&nbsp;', '', ihtmlspecialchars(strip_tags($_share['desc']))), 60)));
+    if(empty($_share['link'])) {
+        $_share['link'] = '';
+        $query_string = $_SERVER['QUERY_STRING'];
+        if(!empty($query_string)) {
+            parse_str($query_string, $query_arr);
+            $query_arr['u'] = $_W['member']['uid'];
+            $query_string = http_build_query($query_arr);
+            $_share['link'] = $_W['siteroot'].'app/index.php?'. $query_string;
+        }
+    }
+?>
+
+    <script type="text/javascript">
+
+
+$.getJSON("{php echo $this->createMobileUrl('Count',array('ty'=>'pv','rid'=>$_GPC['rid'],'id'=>$_GPC['id']))}", function(result) {
+    });
+    wx.config(jssdkconfig);
+    
+    var $_share = {php echo json_encode($_share);};
+    
+    if(typeof sharedata == 'undefined'){
+        sharedata = $_share;
+    } else {
+        sharedata['title'] = sharedata['title'] || $_share['title'];
+        sharedata['desc'] = sharedata['desc'] || $_share['desc'];
+        sharedata['link'] = sharedata['link'] || $_share['link'];
+        sharedata['imgUrl'] = sharedata['imgUrl'] || $_share['imgUrl'];
+    }
+
+    function tomedia(src) {
+        if(typeof src != 'string')
+            return '';
+        if(src.indexOf('http://') == 0 || src.indexOf('https://') == 0) {
+            return src;
+        } else if(src.indexOf('../addons') == 0 || src.indexOf('../attachment') == 0) {
+            src=src.substr(3);
+            return window.sysinfo.siteroot + src;
+        } else if(src.indexOf('./resource') == 0) {
+            src=src.substr(2);
+            return window.sysinfo.siteroot + 'app/' + src;
+        } else if(src.indexOf('images/') == 0) {
+            return window.sysinfo.attachurl+ src;
+        }
+    } 
+    
+
+    
+    if(sharedata.desc == ''){
+        var _share_content = _removeHTMLTag($('body').html());
+        if(typeof _share_content == 'string'){
+            sharedata.desc = _share_content.replace($_share['title'], '')
+        }
+    }
+    wx.ready(function () {
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+        wx.onMenuShareQQ(sharedata);
+        wx.onMenuShareWeibo(sharedata);
+    });
+    sharedata.success = function(){
+            var url = "{php echo $this->createMobileUrl('Count',array('ty'=>'share','rid'=>$_GPC['rid'],'id'=>$_GPC['id']))}";
+            $.post(url, function(dat){});
+    }
+    $(function(){
+        if($('.js-quickmenu')!=null && $('.js-quickmenu')!=''){
+            var h = $('.js-quickmenu').height()+'px';
+            $('body').css("padding-bottom",h);
+        }else{
+            $('body').css("padding-bottom", "0");
+        }
+        
+        if($('.js-quickmenu')!=null && $('.js-quickmenu')!=''){
+            var h = $('.js-quickmenu').height()+'px';
+            $('body').css("padding-bottom",h);
+        }
+    });
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+ 
+
